@@ -1,6 +1,6 @@
 # PassWchecker
 
-About
+About:
 PassWchecker is A simple, password checker that:
 - Rates password strength (Very Weak, Weak, Strong, Very Strong) 
 - Provides actionable tips to improve Very Weak and Weak password
@@ -15,9 +15,9 @@ Upon running the program, the user ill be prompted to select from a series of ac
 3.	Test passwords from a text file > read passwords from a file (one per line).
 
 Requirements
-requests 2.31.0
-pyenchant 3.2.2
-hashlib
+- requests 2.31.0
+- pyenchant 3.2.2
+- hashlib
 
-Privacy
+Privacy:
 The HIBP API call never sends your password or full hash—only the first 5 chars of its SHA-1 hash (k-Anonymity model).
