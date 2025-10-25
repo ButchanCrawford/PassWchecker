@@ -4,7 +4,7 @@ About
 PassWchecker is A simple, password checker that:
 - Rates password strength (Very Weak, Weak, Strong, Very Strong) 
 - Provides actionable tips to improve Very Weak and Weak password
-= Flags common attack patterns such as keyboard sequences, character sequences and years
+- Flags common attack patterns such as keyboard sequences, character sequences and years
 - Checks if a password appears in known data breaches via Have I Been Pwned (HIPB) API
 
 Usage:
