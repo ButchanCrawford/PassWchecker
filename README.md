@@ -2,6 +2,7 @@
 
 About
 PassWchecker is A simple, password checker that:
+
 •	Rates password strength (Very Weak, Weak, Strong, Very Strong) 
 •	Provides actionable tips to improve Very Weak and Weak password
 •	Flags common attack patterns such as keyboard sequences, character sequences and years
