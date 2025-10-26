@@ -1,90 +1,48 @@
-#!/usr/bin/env python3
-import enchant
-
-
-# password_strength_analyzer checks the strength of a given password and returns a strength rating.
-def password_strength_analyzer(password):
-#  account for dictionary ords
-#  account for  keyboard alks 
-#  account for years range 1500-2050
-#  account for sequential characters
-
-
-    password_score = 0 # Default password score
-    tip_count = 0   # Default tip counter
-
-    length = len(password) # Get the length of the password
-    has_upper = any(c.isupper() for c in password) # Check for uppercase letters
-    has_lower = any(c.islower() for c in password) # Check for lowercase letters
-    has_digit = any(c.isdigit() for c in password) # Check for digits / numbers
-    has_symbol = any(not c.isalnum() for c in password) # Check for special characters / symbols
-
-
-    #  Scoring Passords - if criteria met, increase score
-    if length >= 8:
-        password_score += 1
-    if length >= 10: 
-        password_score += 2 
-    if length >= 15:
-        password_score += 3 
-    if has_upper:
-        password_score += 1
-    if has_lower:
-        password_score += 1
-    if has_lower and has_upper:
-        password_score += 1
-    if has_digit:
-        password_score += 1
-    if has_symbol:
-        password_score += 1
-
-
-    # Rating based on total score
-    if password_score <= 4:
-        print(password,length,"score: ",password_score, "  Very Weak") # Logging usage: should return instead of print
-        if length < 8:
-            tip_count += 1
-            print(f"Tip {tip_count}: Password length should be 8 characters or more")
-        if not has_upper:
-            tip_count += 1
-            print(f"Tip {tip_count}: Include Uppercase characters")
-        if not has_upper:
-            tip_count += 1
-            print(f"Tip {tip_count}: Include Uppercase characters")
-        if not has_symbol:
-            tip_count += 1
-            print(f"Tip {tip_count}: include special characters")
-        if not has_digit:
-            tip_count += 1
-            print(f"Tip {tip_count}: Include numbers")
-      
-    elif password_score <= 5:
-        print(password,length,"score: ",password_score, "  Weak") # Logging usage: should return instead of print
-        if length < 8:
-            tip_count += 1
-            print(f"Tip {tip_count}: Password length should be 8 characters or more")
-        if not has_upper:
-            tip_count += 1
-            print(f"Tip {tip_count}: Include Uppercase characters")
-        if not has_upper:
-            tip_count += 1
-            print(f"Tip {tip_count}: Include Uppercase characters")
-        if not has_symbol:
-            tip_count += 1
-            print(f"Tip {tip_count}: include special characters")
-        if not has_digit:
-            tip_count += 1
-            print(f"Tip {tip_count}: Include numbers")
-       
-    elif password_score <= 7:
-        print(password,length, "score: ",password_score, "  Strong") # Logging usage: should return instead of print
-    else:
-        print(password,length, "score: ",password_score, "  Very Strong") # Logging usage: should return instead of print
-       
+from strength_analyser import password_strength_analyzer
+from been_pwned import is_pwned
+from common_attack_patterns import check_for_common_attack_patterns
 
 
 # --- main program ---
-# Determine how user interfaces with program 
-password = input("Enter a password to test: ")
-rating = password_strength_analyzer(password)
-print(f"Password strength: {rating}")
+
+if __name__ == "__main__":
+    # User input to choose testing method
+    user_input = input("Enter '1' to test a single password, '2' to use the included test list of passwords, or '3' to test passwords from a file: ")  
+    while user_input not in ['1', '2', '3']:
+        user_input = input("Invalid input. Please enter '1', '2', or '3'")
+
+    if user_input == '1': # Single password test
+        pwd = input("Enter a password to test: ")
+        check_for_common_attack_patterns(pwd) # Check for common attack patterns
+        password_strength_analyzer(pwd) # Analyze password strength
+        is_pwned(pwd) # Check if password is found in breaches
+    elif user_input == '2': # Test included password list
+        test_list = [
+            "password", "123456", "qwerty", "letmein","Qa1zxcode*1007", "Qazxcode*1007", "M0N@L1s4", "SoilPlantS001", "P@ssw0rd",
+            "admin123!", "BlueCar#7","7vR$k9!tQx","OpenMyAccount$1","m9Gf#2LpV8wQz!s",
+            "Tr0ub4dor&3", "S0lar:)(:2024!", "Zebra-42-OpenSky", "Random*Pass#204",
+        ]   
+        for pwd in test_list: # Iterate through test passwords
+            check_for_common_attack_patterns(pwd) # Check for common attack patterns
+            password_strength_analyzer(pwd) # Analyze password strength
+            is_pwned(pwd) # Check if password is found in breaches
+            print("|-------------------------------|")
+          
+    elif user_input == '3': # Test passwords from a file
+        file_path = input("Enter the path to the file containing passwords: ") # Get file path from user
+        try: # Open and read the file
+            with open(file_path, 'r') as file:
+                for line in file:
+                    pwd = line.strip() # Remove whitespace/newline characters
+                    if pwd:  # Avoid empty lines
+                        check_for_common_attack_patterns(pwd) # Check for common attack patterns
+                        password_strength_analyzer(pwd) # Analyze password strength
+                        is_pwned(pwd) # Check if password is found in breaches
+                        print("|-------------------------------|")
+        except FileNotFoundError: #Handle file not found error
+            print(f"File not found: {file_path}")
+   
+
+
+
+
