@@ -95,8 +95,8 @@ def check_for_common_attack_patterns(password):
 
 # Combines all common attack pattern checks (modified to count the number of attack patterns found)
 def check_for_common_attack_patternsV2(password):
-    attack_pattern_count = 0
-    if is_dictionary_word(password):
+    attack_pattern_count = 0 # Attack pattern counter: incremented for each pattern found (used in strength analyser to reduce score if a pattern is found)
+    if is_dictionary_word(password): 
         attack_pattern_count += 1
     if has_keyboard_sequence(password):
         attack_pattern_count += 2
